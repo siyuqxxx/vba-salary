@@ -384,7 +384,7 @@ Public Function IsMyTrip(intTestID As Integer) As Boolean
     
     Dim Sale As Integer
     For Sale = 1 To SalesCount
-        If SalesID = inttest Then
+        If SalesID(Sale) = intTestID Then
             IsMyTrip = True
             Exit For
         End If
