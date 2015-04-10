@@ -1,0 +1,133 @@
+'存储单子信息
+Private cAcvmt() As New cAchievement
+
+'存储单子总数
+Private intAcvmtsCount As Integer
+
+'存储业绩总数
+Private dPorfitCount As Double
+
+'存储正则表达式表
+Private cRegList As New cRegexes
+
+
+
+'写入单子信息
+Public Sub SetAcvmtsItem()
+'   遍历表，获取表中所有单子信息
+'
+'    参数:
+'    objList As ListObjects
+'
+'    返回:
+'    NULL
+    Dim wrkshtBase As Worksheet
+    Dim objList As ListObject
+    
+    Set wrkshtBase = ActiveWorkbook.Worksheets("毛利总表")
+    Set objList = wrkshtBase.ListObjects(1)
+    
+    
+    Dim ListObjRows As ListRows
+    Dim ListObjRow As ListRow
+    
+    Set ListObjRows = objList.ListRows
+    ReDim cAcvmt(0)
+    Dim i As Integer
+    i = 1
+    
+    For Each ListObjRow In ListObjRows
+        Dim SetFlag As Boolean
+        
+        ReDim Preserve cAcvmt(i)
+        cAcvmt(i).SetcRegList cRegList
+        
+        SetFlag = cAcvmt(i).SetAchievementFromList(ListObjRow)
+         
+        
+        If SetFlag Then
+'            cAcvmt(i).ShowAchievementInfo
+            i = i + 1
+        End If
+        
+    Next ListObjRow
+    
+    '写入单子总数
+    SetintAcvmtsCount (i)
+End Sub
+
+'写入单子总数
+Private Sub SetintAcvmtsCount(intInput As Integer)
+    intAcvmtsCount = intInput
+End Sub
+
+'写入业绩总数
+Public Sub SetdPorfitCount()
+    Dim a As cAchievement
+    Dim i As Integer
+    
+    For i = 1 To intAcvmtsCount
+        dPorfitCount = cAcvmt(i).GetProfit() + dPorfitCount
+    Next i
+End Sub
+
+Public Sub SetcRegList()
+'    遍历表，获取表中所有正则表达式信息
+'
+'    参数:
+'    NULL
+'
+'    返回:
+'    NULL
+
+    Dim wrkshtBase As Worksheet
+    Dim objListReg As ListObject
+    
+    Set wrkshtBase = ActiveWorkbook.Worksheets("基本信息")
+    Set objListReg = wrkshtBase.ListObjects("正则表达式表")
+    
+    cRegList.SetRegItem objListReg
+End Sub
+
+Public Function GetAchievement(intNum As Integer) As cAchievement
+    GetAchievement.CopyAcvmt cAcvmt(i)
+End Function
+Public Sub PrintAcvmts()
+'    逐条输出业绩信息到Excel
+'
+'    参数:
+'    NULL
+'
+'    返回:
+'    NULL
+    Dim wrkshtOutPut As Worksheet
+    Set wrkshtOutPut = ActiveWorkbook.Worksheets("Sheet1")
+
+    Dim a As cAchievement
+    Dim i As Integer
+    
+    For i = 1 To intAcvmtsCount
+        cAcvmt(i).PrintAcvmt wrkshtOutPut, i
+    Next i
+    
+End Sub
+
+
+Public Function GetIndividualPerformanceLists(intTestID As Integer) As cAchievements()
+'    遍历当前的cAchievements,提取包含指定团号cAchievement,存储在一个新的cAchievements中
+'
+'    参数:
+'    intTestID As Intege
+'
+'    返回:
+'    GetIndividualPerformanceLists As cAchievements()
+    Dim cAcvmtsA As New cAchievements
+    
+    
+    Dim i As Integer
+    For i = 1 To intAcvmtsCount
+        If cAcvmt(i).IsMyTrip(intTestID) Then
+            cAcvmtsA.SetAcvmtsItem
+        End If
+    Next i
+End Function
