@@ -169,5 +169,5 @@ Public Function GetIndividualPerformanceLists(intTestID As Integer) As cAchievem
         End If
     Next i
     
-'   GetIndividualPerformanceLists = cAcvmtsA
+   GetIndividualPerformanceLists = cAcvmtsA
 End Function
