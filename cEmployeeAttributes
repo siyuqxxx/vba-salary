@@ -1,0 +1,186 @@
+'存储员工ID
+Private intEmployeeID As Integer
+
+'存储团号
+Private intEpyNum As Integer
+
+'存储员工姓名
+Private strName As String
+
+'存储员工是否转正
+Private blnIsRegular As Boolean
+
+'存储薪资类型
+Private strWageType As String * 1
+
+'存储是否在职
+Private blnIsService As Boolean
+
+'存储是否社保
+Private blnIsSocialSecurity As Boolean
+
+
+Private Sub SetblnIsRegular(blnInput As Boolean)
+'写入员工是否转正
+    blnIsRegular = blnInput
+End Sub
+Private Sub SetblnIsService(blnInput As Boolean)
+'写入是否在职
+    blnIsService = blnInput
+End Sub
+Private Sub SetblnIsSocialSecurity(blnInput As Boolean)
+'写入是否社保
+    blnIsSocialSecurity = blnInput
+End Sub
+Private Sub SetintEmployeeID(intInput As Integer)
+'写入员工ID
+    intEmployeeID = intInput
+End Sub
+Private Sub SetintEpyNum(intInput As Integer)
+'写入团号
+    intEpyNum = intInput
+End Sub
+Private Sub SetstrName(strInput As String)
+'写入员工姓名
+    strName = strInput
+End Sub
+Private Sub SetstrWageType(strInput As String)
+'写入薪资类型
+    strWageType = strInput
+End Sub
+Public Sub GetblnIsRegular()
+'读出员工是否转正
+    GetblnIsRegular = blnIsRegular
+End Sub
+Public Sub GetblnIsService()
+'读出是否在职
+    GetblnIsService = blnIsService
+End Sub
+Public Sub GetblnIsSocialSecurity()
+'读出是否社保
+    GetblnIsSocialSecurity = blnIsSocialSecurity
+End Sub
+Public Sub GetintEmployeeID()
+'读出员工ID
+    GetintEmployeeID = intEmployeeID
+End Sub
+Public Sub GetintEpyNum()
+'读出团号
+    GetintEpyNum = intEpyNum
+End Sub
+Public Sub GetstrName()
+'读出员工姓名
+    GetstrName = strName
+End Sub
+Public Sub GetstrWageType()
+'读出薪资类型
+    GetstrWageType = strWageType
+End Sub
+
+Public Sub SetEpyInfoFromList(ListObjRow As ListRow)
+'   写入员工信息
+'
+'    参数:
+'    ListObjRow As ListRow
+'
+'    返回:
+'    NULL
+
+    Dim objList As ListObject
+    Dim objListCols As ListColumns
+
+    Set objList = ListObjRow.Parent
+    Set objListCols = objList.ListColumns
+    
+'写入员工是否转正
+    SetblnIsRegular ListObjRow.Range(GetListObjColIndex(objListCols, "是否转正"))
+'写入是否在职
+    SetblnIsService ListObjRow.Range(GetListObjColIndex(objListCols, "是否在职"))
+'写入是否社保
+    SetblnIsSocialSecurity ListObjRow.Range(GetListObjColIndex(objListCols, "是否社保"))
+'写入员工ID
+    SetintEmployeeID ListObjRow.Range(GetListObjColIndex(objListCols, "ID"))
+'写入团号
+    SetintEpyNum ListObjRow.Range(GetListObjColIndex(objListCols, "团号"))
+'写入员工姓名
+    SetstrName ListObjRow.Range(GetListObjColIndex(objListCols, "姓名"))
+'写入薪资类型
+    SetstrWageType ListObjRow.Range(GetListObjColIndex(objListCols, "工资方案"))
+
+End Sub
+
+'Public Sub SetEpyInfoFromLists(objList As ListObject)
+''   遍历表，获取表中所有员工信息
+''
+''    参数:
+''    objList As ListObjects
+''
+''    返回:
+''    NULL
+'
+'    Dim ListObjRows As ListRows
+'    Dim ListObjRow As ListRow
+'
+'    Set ListObjRows = objList.ListRows
+'
+'    For Each ListObjRow In ListObjRows
+'        SetEpyInfoFromList ListObjRow
+'        ShowEpyInfo
+'    Next ListObjRow
+'
+'End Sub
+
+Private Function GetListObjColIndex(objListCols As ListColumns, strName As String) As Long
+'    获取表头名称在表中对应的列索引号
+'
+'    参数:
+'    objListCols As ListColumns
+'    strName As String
+'
+'    返回:
+'    GetListObjColIndex As Long
+    
+    Dim objListCol As ListColumn
+    
+    GetListObjColIndex = objListCols(strName).Index
+End Function
+
+Public Sub ShowEpyInfo()
+'   输出员工信息
+    Dim EpyInfo As String
+    EpyInfo = "员工ID：" & intEmployeeID & Chr(10)
+    EpyInfo = EpyInfo & "员工姓名：" & strName & Chr(10)
+    EpyInfo = EpyInfo & "团号：" & intEpyNum & Chr(10)
+    EpyInfo = EpyInfo & "是否转正：" & blnIsRegular & Chr(10)
+    EpyInfo = EpyInfo & "工资方案：" & strWageType & Chr(10)
+    EpyInfo = EpyInfo & "是否在职：" & blnIsService & Chr(10)
+    EpyInfo = EpyInfo & "是否社保：" & blnIsSocialSecurity & Chr(10)
+    
+    MsgBox EpyInfo, vbOKOnly
+    
+End Sub
+
+Public Sub CopyEpy(EpyInput As cEmployeeAttributes)
+
+    '复制员工ID
+    intEmployeeID = EpyInput.GetintEmployeeID
+    
+    '复制团号
+    intEpyNum = EpyInput.GetintEpyNum
+    
+    '复制员工姓名
+    strName = EpyInput.GetstrName
+    
+    '复制员工是否转正
+    blnIsRegula = EpyInput.GetblnIsRegular
+    
+    '复制薪资类型
+    strWageType = EpyInput.GetstrWageType
+    
+    '复制是否在职
+    blnIsService = EpyInput.GetblnIsService
+    
+    '复制是否社保
+    blnIsSocialSecurity = EpyInput.GetblnIsSocialSecurity
+    
+End Sub
