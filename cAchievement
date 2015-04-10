@@ -1,0 +1,392 @@
+'存储团号
+Private TripCode As String
+
+'存储出团日期
+Private StartingDate As Date
+
+'存储利润
+Private Profit As Double
+
+'存储销售ID
+Private SalesID() As Integer
+
+'存储合单人数
+Private SalesCount As Byte
+
+'存储个人业绩数
+Private IndividualPerformance() As Double
+
+'存储正则表达式表
+Private cRegList As New cRegexes
+
+
+'写入团号
+Private Function SetTripCode(strInput As String) As Boolean
+On Error GoTo err_SetTripCode
+    SetTripCode = True
+    
+    
+    If strInput = Empty Then
+        SetTripCode = False
+        Exit Function
+    End If
+    
+    
+    Dim mactchRegResults As Object
+    
+    With cRegList
+        Set mactchRegResults = .RegTest(strInput, .GetRegPatten("综合"))
+    End With
+    
+    TripCode = mactchRegResults(0).Value
+    
+    Exit Function
+    
+err_SetTripCode:
+    MsgBox "发现异常团号格式：" & Chr(10) & strInput
+    SetTripCode = False
+    Resume Next
+End Function
+
+'写入出团日期
+Private Function SetStartingDate(strInput As String) As Boolean
+On Error GoTo err_SetStartingDate
+    SetStartingDate = True
+        
+    
+    If strInput = Empty Then
+        SetStartingDate = False
+        Exit Function
+    End If
+    
+    
+    StartingDate = strInput
+    
+    Exit Function
+    
+err_SetStartingDate:
+    MsgBox "发现异常日期格式：" & Chr(10) & strInput
+    SetStartingDate = False
+    Resume Next
+    
+End Function
+'写入利润
+Private Function SetProfit(dInput As Double) As Boolean
+On Error GoTo err_SetProfit
+    SetProfit = True
+        
+    
+    If dInput = Empty Then
+        SetProfit = False
+        Exit Function
+    End If
+    
+    
+    Profit = Round(dInput, 2)
+    
+    Exit Function
+    
+err_SetProfit:
+    MsgBox "发现异常利润格式：" & Chr(10) & dInput
+    SetProfit = False
+    Resume Next
+    
+End Function
+'写入销售ID
+Private Sub SetSalesID()
+
+    Dim mactchRegResults As Object
+    
+    With cRegList
+        Set mactchRegResults = .RegTest(TripCode, .GetRegPatten("个单"))
+        If mactchRegResults.Count = 1 Then
+            ReDim Preserve SalesID(1)
+            SalesID(1) = Mid(mactchRegResults(0), 3, Len(mactchRegResults(0)) - 2)
+        Else
+            Set mactchRegResults = .RegTest(TripCode, .GetRegPatten("合单"))
+            ReDim Preserve SalesID(2)
+            Dim intPlusLocation As Integer
+            intPlusLocation = InStr(mactchRegResults(0), "+")
+            SalesID(1) = Mid(mactchRegResults(0), 1, intPlusLocation - 1)
+            SalesID(2) = Mid(mactchRegResults(0), intPlusLocation + 1, Len(mactchRegResults(0)) - intPlusLocation)
+        End If
+    End With
+
+End Sub
+'写入合单人数
+Private Sub SetSalesCount()
+    SalesCount = UBound(SalesID)
+    
+End Sub
+    
+'写入个人业绩数
+Private Sub SetIndividualPerformance()
+    If Not SalesCount >= 1 Then
+        MsgBox "个人业绩写入失败"
+        Exit Sub
+    End If
+    
+    ReDim Preserve IndividualPerformance(SalesCount)
+    
+    Dim i As Integer
+    For i = 1 To SalesCount
+        IndividualPerformance(i) = Profit / SalesCount
+    Next i
+
+End Sub
+'写入正则表达式表
+Public Sub SetcRegList(cRegInput As cRegexes)
+    cRegList.CopyRegexes cRegInput
+End Sub
+'读出团号
+Public Function GetTripCode() As String
+    GetTripCode = TripCode
+
+End Function
+'读出出团日期
+Public Function GetStartingDate() As Date
+    GetStartingDate = StartingDate
+
+End Function
+'读出利润
+Public Function GetProfit() As Double
+    GetProfit = Profit
+
+End Function
+'读出销售ID
+Public Function GetSalesIDList() As Integer()
+    Dim SalesIDOutput() As Integer
+    ReDim Preserve SalesIDOutput(SalesCount)
+    
+    Dim i As Integer
+    For i = 1 To SalesCount
+        SalesIDOutput(i) = SalesID(i)
+    Next i
+    GetSalesIDList = SalesIDOutput
+
+End Function
+'读出合单人数
+Public Function GetSalesCount() As Byte
+    GetSalesCount = SalesCount
+
+End Function
+
+'读出个人业绩数清单
+Public Function GetIndividualPerformanceList() As Double()
+    Dim IndividualPerformanceOutput() As Double
+    ReDim Preserve IndividualPerformanceOutput(SalesCount)
+    
+    Dim i As Integer
+    For i = 1 To SalesCount
+        IndividualPerformanceOutput(i) = IndividualPerformance(i)
+    Next i
+    
+    GetIndividualPerformanceList = IndividualPerformanceOutput
+
+End Function
+'读出正则表达式表
+Public Function GetcRegList() As cRegexes
+    Dim cRgxsA As New cRegexes
+    cRgxsA.CopyRegexes cRegList
+    Set GetcRegList = cRgxsA
+End Function
+
+Public Function SetAchievementFromList(ListObjRow As ListRow) As Boolean
+'   写入业绩信息
+'
+'   参数:
+'   ListObjRow As ListRow
+'
+'   返回:
+'   NULL
+
+On Error GoTo err_SetAchievementFromList
+    SetAchievementFromList = True
+    
+    Dim objList As ListObject
+    Dim objListCols As ListColumns
+
+    Set objList = ListObjRow.Parent
+    Set objListCols = objList.ListColumns
+    
+    Dim blnSetFlage As Boolean
+    
+    blnSetFlage = True
+    
+'写入团号
+    blnSetFlage = SetTripCode(ListObjRow.Range(GetListObjColIndex(objListCols, "团号")))
+    If blnSetFlage = False Then
+        SetAchievementFromList = False
+        Exit Function
+    End If
+
+'写入出团日期
+    blnSetFlage = SetStartingDate(ListObjRow.Range(GetListObjColIndex(objListCols, "出团日期")))
+    If blnSetFlage = False Then
+        SetAchievementFromList = False
+        Exit Function
+    End If
+'写入利润
+    blnSetFlage = SetProfit(ListObjRow.Range(GetListObjColIndex(objListCols, "利润")))
+    If blnSetFlage = False Then
+        SetAchievementFromList = False
+        Exit Function
+    End If
+    
+'写入销售ID
+    SetSalesID
+    
+'写入合单人数
+    SetSalesCount
+    
+'写入个人业绩
+    SetIndividualPerformance
+    
+    Set objList = Nothing
+    Set objListCols = Nothing
+    
+    Exit Function
+    
+err_SetAchievementFromList:
+    MsgBox "业绩信息读写异常"
+    SetAchievementFromList = False
+    Resume Next
+    
+End Function
+
+Private Function GetListObjColIndex(objListCols As ListColumns, strName As String) As Long
+'    获取表头名称在表中对应的列索引号
+'
+'    参数:
+'    objListCols As ListColumns
+'    strName As String
+'
+'    返回:
+'    GetListObjColIndex As Long
+    
+    Dim objListCol As ListColumn
+    
+    GetListObjColIndex = objListCols(strName).Index
+End Function
+
+
+Public Sub ShowAchievementInfo()
+'   输出业绩信息至MsgBox
+On Error Resume Next
+    Dim AcvmtInfo As String
+    
+    AcvmtInfo = "团号：" & TripCode & Chr(10)
+    AcvmtInfo = AcvmtInfo & "团期：" & StartingDate & Chr(10)
+    AcvmtInfo = AcvmtInfo & "利润：" & Profit & Chr(10)
+    AcvmtInfo = AcvmtInfo & "销售："
+    
+    Dim Sale As Integer
+    For Sale = 1 To UBound(SalesID)
+        AcvmtInfo = AcvmtInfo & SalesID(Sale) & " "
+    Next Sale
+    
+    AcvmtInfo = AcvmtInfo & Chr(10) & "合单人数：" & SalesCount & Chr(10)
+    AcvmtInfo = AcvmtInfo & "个人业绩："
+    
+    Dim Performance As Integer
+    For Performance = 1 To UBound(IndividualPerformance)
+        AcvmtInfo = AcvmtInfo & IndividualPerformance(Performance) & " "
+    Next Performance
+    
+    MsgBox AcvmtInfo, vbOKOnly
+    
+End Sub
+
+Public Sub PrintAcvmt(ws As Worksheet, iRow As Integer)
+'   输出业绩信息至Excel表格
+    ws.Cells(iRow, 1) = TripCode
+    ws.Cells(iRow, 2) = StartingDate
+    ws.Cells(iRow, 3) = Profit
+    ws.Cells(iRow, 4) = SalesCount
+End Sub
+
+Public Sub CopyAcvmt(cAcvmtInput As cAchievement)
+'   复制团号
+    TripCode = cAcvmtInput.GetTripCode()
+    
+'   复制出团日期
+    StartingDate = cAcvmtInput.GetStartingDate()
+
+'   复制利润
+    Profit = cAcvmtInput.GetProfit
+
+'   复制销售ID
+    CopySalesID cAcvmtInput.GetSalesIDList()
+    
+'   复制合单人数
+    SalesCount = cAcvmtInput.GetSalesCount
+'
+'   复制个人业绩数
+    CopyIndividualPerformance cAcvmtInput.GetIndividualPerformanceList()
+'
+'   复制正则表达式表
+    SetcRegList cAcvmtInput.GetcRegList()
+End Sub
+
+Private Sub CopySalesID(intInput() As Integer)
+'    复制SalesID信息
+'
+'    参数:
+'    intInput() As Integer
+'
+'    返回:
+'    NULL
+
+    Dim intInputCount As Integer
+    intInputCount = UBound(intInput)
+    
+    ReDim Preserve SalesID(intInputCount)
+    
+    Dim i As Integer
+    For i = 1 To intInputCount
+        SalesID(i) = intInput(i)
+    Next i
+
+End Sub
+
+Private Sub CopyIndividualPerformance(dInput() As Double)
+'    复制IndividualPerformance信息
+'
+'    参数:
+'    dInput() As Double
+'
+'    返回:
+'    NULL
+
+    Dim dInputCount As Double
+    dInputCount = UBound(dInput)
+    
+    ReDim Preserve IndividualPerformance(dInputCount)
+    
+    Dim i As Integer
+    For i = 1 To dInputCount
+        IndividualPerformance(i) = dInput(i)
+    Next i
+
+End Sub
+
+Public Function IsMyTrip(intTestID As Integer) As Boolean
+'    判断当前订单信息是否包含团号intTestID
+'
+'    参数:
+'    intTestID As Integer
+'
+'    返回:
+'    IsMyTrip As Boolean
+'    默认返回False
+    
+    IsMyTrip = False
+    
+    Dim Sale As Integer
+    For Sale = 1 To SalesCount
+        If SalesID = inttest Then
+            IsMyTrip = True
+            Exit For
+        End If
+    Next Sale
+End Function
