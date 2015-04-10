@@ -184,6 +184,23 @@ Public Function GetIndividualPerformanceList() As Double()
     GetIndividualPerformanceList = IndividualPerformanceOutput
 
 End Function
+
+Public Function GetIndividualPerformance(intSale As Integer) As Double
+'   读出个人业绩数
+'
+'   参数:
+'   intSale As Intege
+'
+'   返回:
+'   GetIndividualPerformance As Double
+    
+    For i = 1 To SalesCount
+        If SalesID(i) = intSale Then
+            GetIndividualPerformance = IndividualPerformance(i)
+        End If
+    Next i
+
+End Function
 '读出正则表达式表
 Public Function GetcRegList() As cRegexes
     Dim cRgxsA As New cRegexes
