@@ -1,0 +1,103 @@
+'存储ID
+Private intRegID As Integer
+
+'存储类型
+Private strRegName As String
+
+'存储正则表达式
+Private strReg As String
+
+'写入ID
+Private Sub SetintRegID(intInput As Integer)
+    intRegID = intInput
+
+End Sub
+'写入类型
+Private Sub SetstrRegName(strInput As String)
+    strRegName = strInput
+
+End Sub
+'写入正则表达式
+Private Sub SetstrReg(strInput As String)
+    strReg = strInput
+
+End Sub
+'读出ID
+Public Function GetintRegID()
+    GetintRegID = intRegID
+
+End Function
+'读出类型
+Public Function GetstrRegName()
+    GetstrRegName = strRegName
+
+End Function
+'读出正则表达式
+Public Function GetstrReg()
+    GetstrReg = strReg
+
+End Function
+Public Sub SetRegInfoFromList(ListObjRow As ListRow)
+'   写入正则表达式信息
+'
+'    参数:
+'    ListObjRow As ListRow
+'
+'    返回:
+'    NULL
+
+    Dim objList As ListObject
+    Dim objListCols As ListColumns
+
+    Set objList = ListObjRow.Parent
+    Set objListCols = objList.ListColumns
+    
+'写入ID
+    SetintRegID ListObjRow.Range(GetListObjColIndex(objListCols, "ID"))
+'写入类型
+    SetstrRegName ListObjRow.Range(GetListObjColIndex(objListCols, "类型"))
+'写入正则表达式
+    SetstrReg ListObjRow.Range(GetListObjColIndex(objListCols, "正则表达式"))
+
+
+End Sub
+
+Public Sub ShowRegInfo()
+'   输出正则表达式信息
+    Dim RegInfo As String
+    RegInfo = "ID：" & intRegID & Chr(10)
+    RegInfo = RegInfo & "类型：" & strRegName & Chr(10)
+    RegInfo = RegInfo & "正则表达式：" & strReg & Chr(10)
+    
+    MsgBox RegInfo, vbOKOnly
+    
+End Sub
+
+Private Function GetListObjColIndex(objListCols As ListColumns, strName As String) As Long
+'    获取表头名称在表中对应的列索引号
+'
+'    参数:
+'    objListCols As ListColumns
+'    strName As String
+'
+'    返回:
+'    GetListObjColIndex As Long
+    
+    Dim objListCol As ListColumn
+    
+    GetListObjColIndex = objListCols(strName).Index
+End Function
+
+Public Sub CopyReg(RegInput As cRegex)
+
+    '复制ID
+    intRegID = RegInput.GetintRegID
+    
+    '复制正则表达式
+    strReg = RegInput.GetstrReg
+    
+    '复制类型
+    strRegName = RegInput.GetstrRegName
+    
+    
+End Sub
