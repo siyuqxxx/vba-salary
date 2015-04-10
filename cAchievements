@@ -90,7 +90,17 @@ Public Sub SetcRegList()
 End Sub
 
 Public Function GetAchievement(intNum As Integer) As cAchievement
-    GetAchievement.CopyAcvmt cAcvmt(i)
+'    获取cAchievements中指定GetAchievement的内容，
+'    类似数组
+'
+'    参数:
+'    NULL
+'
+'    返回:
+'    NULL
+    Dim cAcvmtA As New cAchievement
+    cAcvmtA.CopyAcvmt cAcvmt(intNum)
+    Set GetAchievement = cAcvmtA
 End Function
 Public Sub PrintAcvmts()
 '    逐条输出业绩信息到Excel
