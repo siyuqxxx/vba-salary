@@ -40,7 +40,7 @@ Public Sub SetpacEpyAtrbLists()
     paintEACount = i
 End Sub
 
-Public Function GetpaintEACountCount()
+Public Function GetpaintEACount()
 '    获取cEmployeesAttributes中存储的所有cEmployeeAttributes的总数量
 '    参数：
 '    NULL
@@ -49,4 +49,54 @@ Public Function GetpaintEACountCount()
 '    intRegsCount
 
     GetpaintEACountCount = paintEACountCount
+End Function
+
+Public Function GetEpyAtrbByName(strInput As String) As cEmployeeAttributes
+'    遍历cEmployeesAttributes中存储的所有有cEmployeeAttributes，
+'    找出有cEmployeeAttributes中strName（姓名）与strInput匹配的数据，返回整条对应的cEmployeeAttributes
+'
+'    参数：
+'    strInput As String
+'
+'    返回：
+'    GetEpyAtrbByName As cAchievement
+    
+
+    Dim i As Integer
+
+    For i = 1 To paintEACount
+        If strInput = pacEpyAtrbLists(i).GetstrName() Then
+            Dim cEAOunput As New cEmployeeAttributes
+            cEAOunput.CopyEpy pacEpyAtrbLists(i)
+            cEAOunput.ShowEpyInfo
+            
+            Set GetEpyAtrbByName = cEAOunput
+            Exit Function
+        End If
+    Next i
+End Function
+
+Public Function GetEpyAtrbByEpyNum(intInput As Integer) As cEmployeeAttributes
+'    遍历cEmployeesAttributes中存储的所有有cEmployeeAttributes，
+'    找出有cEmployeeAttributes中intEpyNum（团号）与intInput匹配的数据，返回整条对应的cEmployeeAttributes
+'
+'    参数：
+'    intInput As Integer
+'
+'    返回：
+'    GetEpyAtrbByEpyNum As cAchievement
+    
+
+    Dim i As Integer
+
+    For i = 1 To paintEACount
+        If intInput = pacEpyAtrbLists(i).GetintEpyNum() Then
+            Dim cEAOunput As New cEmployeeAttributes
+            cEAOunput.CopyEpy pacEpyAtrbLists(i)
+            cEAOunput.ShowEpyInfo
+            
+            Set GetEpyAtrbByEpyNum = cEAOunput
+            Exit Function
+        End If
+    Next i
 End Function
