@@ -1,8 +1,58 @@
-﻿'存储员工信息
-Private pacEpy As New cEmployee
+﻿'存储员工信息表
+Private pacEpyList() As New cEmployee
 
-'存储员工个数
-Private paintEpy As Integer
+'存储总业绩信息
+Private pacAcvmtList As New cAchievements
 
 '存储员工属性表
-Private cEsAList() As New cEmployeesAttributes
+Private pacEAList As cEmployeesAttributes
+
+Public Sub SetpacEpy()
+'    遍历 员工属性表 表中员工属，创建员工信息表
+'
+'    参数:
+'    NULL
+'
+'    返回:
+'    NULL
+
+    Dim intEpyCount As Integer
+    intEpyCount = pacEAList.GetpaintEACount
+    
+    Dim i As Integer
+    
+    For i = 1 To intEpyCount
+        Dim strEpyName As String
+        strEpyName = pacEAList.GetEpyAtrbByName(i)
+        
+        ReDim Preserve pacEpyList(i)
+        
+        pacEpyList(i).SetpacEpyAtrbs pacEAList.GetEpyAtrbByEpyNum(i)
+        pacEpyList(i).SetpacAcvmtList pacAcvmts
+End Sub
+
+Public Sub SetpacAcvmtList()
+'    遍历 Excel 表中的 业绩表，获取表中所有单子信息
+'
+'    参数:
+'    objList As ListObjects
+'
+'    返回:
+'    NULL
+    
+    pacAcvmtList.SetAcvmtsItem
+End Sub
+
+Public Sub SetcEsAList()
+'    遍历 Excel 表中的 员工属性表，获取表中所有员工属性
+'
+'    参数:
+'    NULL
+'
+'    返回:
+'    NULL
+    
+    pacEAList.SetpacEpyAtrbLists
+End Sub
+
+
