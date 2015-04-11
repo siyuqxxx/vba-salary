@@ -1,0 +1,9 @@
+﻿Private paEpy As cEmployeeAttributes
+
+Public Sub GetEpy()
+    
+End Sub
+
+Public Sub SetpaEpy(EpyInput As cEmployeeAttributes)
+    paEpy.CopypaEpy EpyInput
+End Sub
