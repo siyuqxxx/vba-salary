@@ -54,10 +54,11 @@ Public Sub SetAcvmtsItem()
     
     '写入单子总数
     SetintAcvmtsCount (i)
+    
 End Sub
 
 '
-Public Sub AddAcvmtsItem(cAcvmtInput As cAchievement)
+Public Sub AddAcvmtsItem(cAcvmtInput As cAchievement, Sale As Integer)
 '    写入单子信息
 '    将 指定的 cAcvmtInput 追加到 cAcvmt() 最末尾
 '    并修改计算intAcvmtsCount（总单子数），dPorfitCount（总业绩数），cRegList（存储正则表达式表）
@@ -82,6 +83,12 @@ On Error Resume Next
     ReDim Preserve cAcvmt(intCount)
     
     cAcvmt(intCount).CopyAcvmt cAcvmtInput
+    
+    '更新总单子数
+    intAcvmtsCount = intCount
+    
+    '更新业绩总数
+    dPorfitCount = dPorfitCount + cAcvmtInput.GetIndividualPerformance(Sale)
     
 End Sub
 
@@ -165,9 +172,12 @@ Public Function GetIndividualPerformanceLists(intTestID As Integer) As cAchievem
     Dim i As Integer
     For i = 1 To intAcvmtsCount
         If cAcvmt(i).IsMyTrip(intTestID) Then
-            cAcvmtsA.AddAcvmtsItem cAcvmt(i)
+            cAcvmtsA.AddAcvmtsItem cAcvmt(i), intTestID
         End If
     Next i
     
-   GetIndividualPerformanceLists = cAcvmtsA
+    '备份cRegList到新的cAchievements中
+'    cRegList.CopyRegexes
+    
+    Set GetIndividualPerformanceLists = cAcvmtsA
 End Function
