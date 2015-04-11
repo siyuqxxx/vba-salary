@@ -13,7 +13,7 @@ Private cRegList As New cRegexes
 
 
 '写入单子信息
-Public Sub SetAcvmtsItem()
+Public Sub SetAcvmtsItemFormExcel()
 '    遍历 Excel 表中的 业绩表，获取表中所有单子信息
 '
 '    参数:
@@ -21,7 +21,10 @@ Public Sub SetAcvmtsItem()
 '
 '    返回:
 '    NULL
-
+    
+    '从 Excel 中，读取正则表达式计算表
+    cRegList.SetRegItemFormExcel
+    
     Dim wrkshtBase As Worksheet
     Dim objList As ListObject
     
