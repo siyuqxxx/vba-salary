@@ -39,3 +39,14 @@ Public Sub SetpacEpyAtrbLists()
     '写入员工属性表总个数
     paintEACount = i
 End Sub
+
+Public Function GetpaintEACountCount()
+'    获取cEmployeesAttributes中存储的所有cEmployeeAttributes的总数量
+'    参数：
+'    NULL
+'
+'    返回：
+'    intRegsCount
+
+    GetpaintEACountCount = paintEACountCount
+End Function
