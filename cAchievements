@@ -193,3 +193,5 @@ Public Sub CopycRegList(cRegsInput As cRegexes)
 
     cRegList.CopyRegexes cRegsInput
 End Sub
+
+test
