@@ -1,80 +1,77 @@
-'存储ID
-Private intRegID As Integer
+'存储正则表达式组
+Private RegItem() As New cRegex
 
-'存储类型
-Private strRegName As String
+'存储正则表达式个数
+Private intRegsCount As Integer
 
-'存储正则表达式
-Private strReg As String
-
-'写入ID
-Private Sub SetintRegID(intInput As Integer)
-    intRegID = intInput
-
-End Sub
-'写入类型
-Private Sub SetstrRegName(strInput As String)
-    strRegName = strInput
-
-End Sub
 '写入正则表达式
-Private Sub SetstrReg(strInput As String)
-    strReg = strInput
-
-End Sub
-'读出ID
-Public Function GetintRegID()
-    GetintRegID = intRegID
-
-End Function
-'读出类型
-Public Function GetstrRegName()
-    GetstrRegName = strRegName
-
-End Function
-'读出正则表达式
-Public Function GetstrReg()
-    GetstrReg = strReg
-
-End Function
-Public Sub SetRegInfoFromList(ListObjRow As ListRow)
-'   写入正则表达式信息
+Public Sub SetRegItem(objList As ListObject)
+'   遍历表，获取表中所有正则表达式信息
 '
 '    参数:
-'    ListObjRow As ListRow
+'    objList As ListObjects
 '
 '    返回:
 '    NULL
 
-    Dim objList As ListObject
-    Dim objListCols As ListColumns
-
-    Set objList = ListObjRow.Parent
-    Set objListCols = objList.ListColumns
+    Dim wrkshtBase As Worksheet
+    Dim objListReg As ListObject
     
-'写入ID
-    SetintRegID ListObjRow.Range(GetListObjColIndex(objListCols, "ID"))
-'写入类型
-    SetstrRegName ListObjRow.Range(GetListObjColIndex(objListCols, "类型"))
-'写入正则表达式
-    SetstrReg ListObjRow.Range(GetListObjColIndex(objListCols, "正则表达式"))
+    Set wrkshtBase = ActiveWorkbook.Worksheets("基本信息")
+    Set objList = wrkshtBase.ListObjects("正则表达式表")
 
-
+    Dim ListObjRows As ListRows
+    Dim ListObjRow As ListRow
+    
+    Set ListObjRows = objList.ListRows
+    ReDim RegItem(0)
+    Dim i As Integer
+    i = 0
+    
+    For Each ListObjRow In ListObjRows
+        i = i + 1
+        ReDim Preserve RegItem(i)
+        
+        RegItem(i).SetRegInfoFromList ListObjRow
+'        RegItem(i).ShowRegInfo
+        
+    Next ListObjRow
+    
+    intRegsCount = i
 End Sub
 
-Public Sub ShowRegInfo()
-'   输出正则表达式信息
-    Dim RegInfo As String
-    RegInfo = "ID：" & intRegID & Chr(10)
-    RegInfo = RegInfo & "类型：" & strRegName & Chr(10)
-    RegInfo = RegInfo & "正则表达式：" & strReg & Chr(10)
-    
-    MsgBox RegInfo, vbOKOnly
-    
-End Sub
+Public Function GetRegsCount()
+'   获取cRegexes中存储的所有cRegex的总数量
+'    参数：
+'    NULL
+'
+'    返回：
+'    intRegsCount
 
-Private Function GetListObjColIndex(objListCols As ListColumns, strName As String) As Long
-'    获取表头名称在表中对应的列索引号
+    GetRegsCount = intRegsCount
+End Function
+
+Public Function GetRegPatten(strInput As String)
+'    遍历cRegexes中存储的所有cRegex，找出cRegex中strRegName（类型）与strInput匹配的数据，返回对应的strReg（正则表达式）
+'    参数：
+'    strInput As String
+'
+'    返回：
+'    strReg（正则表达式）
+    
+'    Dim cRegMacth As cRegex
+    Dim i As Integer
+    i = GetRegsCount()
+    For i = 1 To intRegsCount
+        If strInput = RegItem(i).GetstrRegName Then
+            GetRegPatten = RegItem(i).GetstrReg
+            Exit Function
+        End If
+    Next i
+End Function
+
+Function RegTest(sText As String, sPattern As String) As Object
+'    使用正则表达式捕获目标字符串
 '
 '    参数:
 '    objListCols As ListColumns
@@ -82,22 +79,98 @@ Private Function GetListObjColIndex(objListCols As ListColumns, strName As Strin
 '
 '    返回:
 '    GetListObjColIndex As Long
+
+    '定义正则表达式对象
+    Dim oRegExp As Object
+    '定义匹配字符串集合对象
+'    Dim oMatches As Object
+    Dim oMatches
+    '创建正则表达式
     
-    Dim objListCol As ListColumn
+    Set oRegExp = CreateObject("vbscript.regexp")
+    With oRegExp
+        '设置是否匹配所有的符合项，True表示匹配所有, False表示仅匹配第一个符合项
+        .Global = True
+        '设置是否区分大小写，True表示不区分大小写, False表示区分大小写
+        .IgnoreCase = True
+        '设置要查找的字符模式
+        .Pattern = sPattern
+        '对字符串执行正则查找，返回所有的查找值的集合，若未找到，则为空
+        Set oMatches = .Execute(sText)
+
+    End With
     
-    GetListObjColIndex = objListCols(strName).Index
+    Set RegTest = oMatches
+    
+    Set oRegExp = Nothing
+    Set oMatches = Nothing
 End Function
 
-Public Sub CopyReg(RegInput As cRegex)
+Public Sub CopyRegexes(RegsInput As cRegexes)
+'    复制整个Regexes类中的元素
+'
+'    参数:
+'    RegsInput As cRegexes
+'
+'    返回:
+'    NULL
+    
+    
+    intRegsCount = RegsInput.GetRegsCount
+    
+    ReDim Preserve RegItem(intRegsCount)
+    Dim cRegB As cRegex
+    
+    Dim i As Integer
+    For i = 1 To intRegsCount
+        RegItem(i).CopyReg RegsInput.GetRegItemMember(i)
+    Next i
+    
+End Sub
 
-    '复制ID
-    intRegID = RegInput.GetintRegID
-    
-    '复制正则表达式
-    strReg = RegInput.GetstrReg
-    
-    '复制类型
-    strRegName = RegInput.GetstrRegName
-    
-    
+Public Function GetRegItemMember(intNum As Integer) As cRegex
+'    读取RegItem中指定位置的Regex信息
+'    作用原理类似数组
+'
+'    参数:
+'    intNum As Integer
+'
+'    返回:
+'    GetRegItemMember As cRegex
+
+    Dim cRegOutput As cRegex
+    Set cRegOutput = New cRegex
+    cRegOutput.CopyReg RegItem(intNum)
+
+    Set GetRegItemMember = cRegOutput
+    Set cRegOutput = Nothing
+End Function
+
+'Public Sub SetRegItemLen(intNum As Integer)
+''    调整RegItem数组的大小
+''    作用原理类似数组
+''
+''    参数:
+''    intNum As Integer
+''
+''    返回:
+''    NULL
+'
+'    ReDim Preserve RegItem(intNum)
+'    intRegsCount = intNum
+'End Sub
+
+Public Sub SetRegItemMember(intNum As Integer, cRegInput As cRegex)
+'    读取cRegInput中的信息，并写入到RegItem中，指定位置的Regex
+'    作用原理类似数组
+'
+'    参数:
+'    intNum As Integer
+'    cRegInput As cRegex
+'
+'    返回:
+'    NULL
+
+    RegItem(intNum).CopyReg cRegInput
+
 End Sub
