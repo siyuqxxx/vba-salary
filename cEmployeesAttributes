@@ -4,7 +4,7 @@ Private pacEpyAtrbLists() As New cEmployeeAttributes
 '存储员工属性表总个数
 Private paintEACount As Integer
 
-Public Sub SetpacEpyAtrbLists()
+Public Sub SetpacEpyAtrbListFormExcel()
 '    遍历 Excel 表中员工属性表，获取表中所有员工属性
 '
 '    参数:
@@ -40,7 +40,7 @@ Public Sub SetpacEpyAtrbLists()
     paintEACount = i
 End Sub
 
-Public Function GetpaintEACount()
+Public Function GetpaintEACount() As Integer
 '    获取cEmployeesAttributes中存储的所有cEmployeeAttributes的总数量
 '    参数：
 '    NULL
@@ -48,7 +48,7 @@ Public Function GetpaintEACount()
 '    返回：
 '    intRegsCount
 
-    GetpaintEACountCount = paintEACountCount
+    GetpaintEACount = paintEACount
 End Function
 
 Public Function GetEpyAtrbByName(strInput As String) As cEmployeeAttributes
@@ -96,6 +96,31 @@ Public Function GetEpyAtrbByEpyNum(intInput As Integer) As cEmployeeAttributes
 '            cEAOunput.ShowEpyInfo
             
             Set GetEpyAtrbByEpyNum = cEAOunput
+            Exit Function
+        End If
+    Next i
+End Function
+
+Public Function GetEpyAtrbByID(intInput As Integer) As cEmployeeAttributes
+'    遍历cEmployeesAttributes中存储的所有有cEmployeeAttributes，
+'    找出有cEmployeeAttributes中ID（ID）与intInput匹配的数据，返回整条对应的cEmployeeAttributes
+'
+'    参数：
+'    intInput As Integer
+'
+'    返回：
+'    GetEpyAtrbByEpyNum As cAchievement
+    
+
+    Dim i As Integer
+
+    For i = 1 To paintEACount
+        If intInput = pacEpyAtrbLists(i).GetintEmployeeID() Then
+            Dim cEAOunput As New cEmployeeAttributes
+            cEAOunput.CopyEpy pacEpyAtrbLists(i)
+'            cEAOunput.ShowEpyInfo
+            
+            Set GetEpyAtrbByID = cEAOunput
             Exit Function
         End If
     Next i
