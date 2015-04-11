@@ -1,9 +1,36 @@
-﻿Private paEpy As cEmployeeAttributes
+﻿'存储员工属性
+Private pacEpy As New cEmployeeAttributes
+
+'存储员工业绩
+Private pacAcvmts As New cAchievements
 
 Public Sub GetEpy()
     
 End Sub
 
-Public Sub SetpaEpy(EpyInput As cEmployeeAttributes)
-    paEpy.CopypaEpy EpyInput
+Public Sub SetpacEpy(EpyInput As cEmployeeAttributes)
+'    写入员工属性
+'
+'    参数:
+'    EpyInput As cEmployeeAttributes
+'
+'    返回:
+'    NULL
+
+    pacEpy.CopyEpy EpyInput
+    
 End Sub
+
+Public Sub SetpacAcvmts(cAcvmtsInput As cAchievements)
+'    通过员工姓名，写入员工属性
+'
+'    参数:
+'    intSale As Integer
+'
+'    返回:
+'    NULL
+    
+    Set pacAcvmts = cAcvmtsInput.GetIndividualPerformanceLists(pacEpy.GetintEmployeeID)
+End Sub
+
+
