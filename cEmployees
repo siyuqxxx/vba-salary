@@ -1,0 +1,5 @@
+﻿'存储员工信息
+Private pacEpy As New cEmployee
+
+'存储员工个数
+Private paintEpy As Integer
