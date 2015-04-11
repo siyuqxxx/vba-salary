@@ -177,7 +177,19 @@ Public Function GetIndividualPerformanceLists(intTestID As Integer) As cAchievem
     Next i
     
     '备份cRegList到新的cAchievements中
-'    cRegList.CopyRegexes
+    cAcvmtsA.CopycRegList cRegList
     
     Set GetIndividualPerformanceLists = cAcvmtsA
 End Function
+
+Public Sub CopycRegList(cRegsInput As cRegexes)
+'    读出当前的cAchievements中的cRegList
+'
+'    参数:
+'    NULL
+'
+'    返回:
+'    GetcRegList As cRegexes
+
+    cRegList.CopyRegexes cRegsInput
+End Sub
