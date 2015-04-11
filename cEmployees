@@ -3,3 +3,6 @@ Private pacEpy As New cEmployee
 
 '存储员工个数
 Private paintEpy As Integer
+
+'存储员工属性表
+Private cEsAList() As New cEmployeesAttributes
