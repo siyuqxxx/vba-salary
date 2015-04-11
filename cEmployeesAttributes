@@ -1,2 +1,41 @@
-﻿'存储正则表达式组
-Private pacEpyAtrbLists() As New cRegex
+﻿'存储员工属性组
+Private pacEpyAtrbLists() As New cEmployeeAttributes
+
+'存储员工属性表总个数
+Private paintEACount As Integer
+
+Public Sub SetpacEpyAtrbLists()
+'   遍历表，获取表中所有员工属性
+'
+'    参数:
+'    NULL
+'
+'    返回:
+'    NULL
+
+    Dim wrkshtBase As Worksheet
+    Dim objListReg As ListObject
+    
+    Set wrkshtBase = ActiveWorkbook.Worksheets("基本信息")
+    Set objList = wrkshtBase.ListObjects("员工信息表")
+
+    Dim ListObjRows As ListRows
+    Dim ListObjRow As ListRow
+    
+    Set ListObjRows = objList.ListRows
+    ReDim pacEpyAtrbLists(0)
+    Dim i As Integer
+    i = 0
+    
+    For Each ListObjRow In ListObjRows
+        i = i + 1
+        ReDim Preserve pacEpyAtrbLists(i)
+        
+        pacEpyAtrbLists(i).SetEpyInfoFromList ListObjRow
+'        pacEpyAtrbLists(i).ShowEpyInfo
+        
+    Next ListObjRow
+    
+    '写入员工属性表总个数
+    paintEACount = i
+End Sub
