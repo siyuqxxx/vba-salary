@@ -48,10 +48,10 @@ Private Sub SetstrWageType(strInput As String)
 '写入薪资类型
     strWageType = strInput
 End Sub
-Public Sub GetblnIsRegular()
+Public Function GetblnIsRegular() As Boolean
 '读出员工是否转正
     GetblnIsRegular = blnIsRegular
-End Sub
+End Function
 Public Function GetblnIsService() As Boolean
 '读出是否在职
     GetblnIsService = blnIsService
