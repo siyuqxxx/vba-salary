@@ -5,7 +5,7 @@ Private RegItem() As New cRegex
 Private intRegsCount As Integer
 
 '写入正则表达式
-Public Sub SetRegItem()
+Public Sub SetRegItemFormExcel()
 '   遍历表，获取表中所有正则表达式信息
 '
 '    参数:
