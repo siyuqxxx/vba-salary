@@ -1,0 +1,2 @@
+﻿'存储正则表达式组
+Private pacEpyAtrbLists() As New cRegex
