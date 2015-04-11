@@ -14,13 +14,14 @@ Private cRegList As New cRegexes
 
 '写入单子信息
 Public Sub SetAcvmtsItem()
-'   遍历表，获取表中所有单子信息
+'    遍历 Excel 表中的 业绩表，获取表中所有单子信息
 '
 '    参数:
 '    objList As ListObjects
 '
 '    返回:
 '    NULL
+
     Dim wrkshtBase As Worksheet
     Dim objList As ListObject
     
