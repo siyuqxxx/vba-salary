@@ -115,14 +115,8 @@ Public Sub SetcRegList()
 '
 '    返回:
 '    NULL
-
-    Dim wrkshtBase As Worksheet
-    Dim objListReg As ListObject
     
-    Set wrkshtBase = ActiveWorkbook.Worksheets("基本信息")
-    Set objListReg = wrkshtBase.ListObjects("正则表达式表")
-    
-    cRegList.SetRegItem objListReg
+    cRegList.SetRegItem
 End Sub
 
 Public Function GetAchievement(intNum As Integer) As cAchievement
@@ -193,5 +187,3 @@ Public Sub CopycRegList(cRegsInput As cRegexes)
 
     cRegList.CopyRegexes cRegsInput
 End Sub
-
-test
