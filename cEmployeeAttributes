@@ -52,30 +52,30 @@ Public Sub GetblnIsRegular()
 '读出员工是否转正
     GetblnIsRegular = blnIsRegular
 End Sub
-Public Sub GetblnIsService()
+Public Function GetblnIsService() As Boolean
 '读出是否在职
     GetblnIsService = blnIsService
-End Sub
-Public Sub GetblnIsSocialSecurity()
+End Function
+Public Function GetblnIsSocialSecurity() As Boolean
 '读出是否社保
     GetblnIsSocialSecurity = blnIsSocialSecurity
-End Sub
-Public Sub GetintEmployeeID()
+End Function
+Public Function GetintEmployeeID() As Integer
 '读出员工ID
     GetintEmployeeID = intEmployeeID
-End Sub
-Public Sub GetintEpyNum()
+End Function
+Public Function GetintEpyNum() As Integer
 '读出团号
     GetintEpyNum = intEpyNum
-End Sub
-Public Sub GetstrName()
+End Function
+Public Function GetstrName() As String
 '读出员工姓名
     GetstrName = strName
-End Sub
-Public Sub GetstrWageType()
+End Function
+Public Function GetstrWageType() As String
 '读出薪资类型
     GetstrWageType = strWageType
-End Sub
+End Function
 
 Public Sub SetEpyInfoFromList(ListObjRow As ListRow)
 '   写入员工信息
