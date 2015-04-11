@@ -5,7 +5,7 @@ Private pacEpyAtrbLists() As New cEmployeeAttributes
 Private paintEACount As Integer
 
 Public Sub SetpacEpyAtrbLists()
-'   遍历表，获取表中所有员工属性
+'    遍历 Excel 表中员工属性表，获取表中所有员工属性
 '
 '    参数:
 '    NULL
@@ -68,7 +68,7 @@ Public Function GetEpyAtrbByName(strInput As String) As cEmployeeAttributes
         If strInput = pacEpyAtrbLists(i).GetstrName() Then
             Dim cEAOunput As New cEmployeeAttributes
             cEAOunput.CopyEpy pacEpyAtrbLists(i)
-            cEAOunput.ShowEpyInfo
+'            cEAOunput.ShowEpyInfo
             
             Set GetEpyAtrbByName = cEAOunput
             Exit Function
@@ -93,7 +93,7 @@ Public Function GetEpyAtrbByEpyNum(intInput As Integer) As cEmployeeAttributes
         If intInput = pacEpyAtrbLists(i).GetintEpyNum() Then
             Dim cEAOunput As New cEmployeeAttributes
             cEAOunput.CopyEpy pacEpyAtrbLists(i)
-            cEAOunput.ShowEpyInfo
+'            cEAOunput.ShowEpyInfo
             
             Set GetEpyAtrbByEpyNum = cEAOunput
             Exit Function
