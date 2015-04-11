@@ -5,7 +5,7 @@ Private pacEpyList() As New cEmployee
 Private pacAcvmtList As New cAchievements
 
 '存储员工属性表
-Private pacEAList As cEmployeesAttributes
+Private pacEAList As New cEmployeesAttributes
 
 Public Sub SetpacEpy()
 '    遍历 员工属性表 表中员工属，创建员工信息表
@@ -17,18 +17,19 @@ Public Sub SetpacEpy()
 '    NULL
 
     Dim intEpyCount As Integer
-    intEpyCount = pacEAList.GetpaintEACount
+    intEpyCount = pacEAList.GetpaintEACount()
     
     Dim i As Integer
     
     For i = 1 To intEpyCount
-        Dim strEpyName As String
-        strEpyName = pacEAList.GetEpyAtrbByName(i)
+'        Dim strEpyName As String
+'        strEpyName = pacEAList.GetEpyAtrbByEpyNum(i)
         
         ReDim Preserve pacEpyList(i)
         
-        pacEpyList(i).SetpacEpyAtrbs pacEAList.GetEpyAtrbByEpyNum(i)
-        pacEpyList(i).SetpacAcvmtList pacAcvmts
+        pacEpyList(i).SetpacEpyAtrbs pacEAList.GetEpyAtrbByID(i)
+        pacEpyList(i).SetpacAcvmts pacAcvmtList
+    Next i
 End Sub
 
 Public Sub SetpacAcvmtList()
@@ -40,7 +41,7 @@ Public Sub SetpacAcvmtList()
 '    返回:
 '    NULL
     
-    pacAcvmtList.SetAcvmtsItem
+    pacAcvmtList.SetAcvmtsItemFormExcel
 End Sub
 
 Public Sub SetcEsAList()
@@ -52,7 +53,7 @@ Public Sub SetcEsAList()
 '    返回:
 '    NULL
     
-    pacEAList.SetpacEpyAtrbLists
+    pacEAList.SetpacEpyAtrbListFormExcel
 End Sub
 
 
