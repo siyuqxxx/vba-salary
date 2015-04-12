@@ -15,7 +15,13 @@ Public Sub SetpacEpyList()
 '
 '    返回:
 '    NULL
-
+    
+    '从 Excel 员工属性表 中读出员工属性表
+    SetcEsAList
+    
+    '从 Excel 业绩总表 中读出员工业绩表
+    SetpacAcvmtList
+    
     Dim intEpyCount As Integer
     intEpyCount = pacEAList.GetpaintEACount()
     
@@ -35,7 +41,7 @@ Public Sub SetpacEpyList()
     Next i
 End Sub
 
-Public Sub SetpacAcvmtList()
+Private Sub SetpacAcvmtList()
 '    遍历 Excel 表中的 业绩表，获取表中所有单子信息
 '
 '    参数:
@@ -47,7 +53,7 @@ Public Sub SetpacAcvmtList()
     pacAcvmtList.SetAcvmtsItemFormExcel
 End Sub
 
-Public Sub SetcEsAList()
+Private Sub SetcEsAList()
 '    遍历 Excel 表中的 员工属性表，获取表中所有员工属性
 '
 '    参数:
@@ -59,4 +65,10 @@ Public Sub SetcEsAList()
     pacEAList.SetpacEpyAtrbListFormExcel
 End Sub
 
+Public Sub PrintEpysAcvmtsToExcel()
+    Dim i As Integer
+    For i = 1 To UBound(pacEpyList)
+        pacEpyList(i).PrintEpyAcvmtsToExcel
+    Next i
+End Sub
 
