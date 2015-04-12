@@ -1,0 +1,95 @@
+﻿'存储新增方案表
+Private pacSSList() As New cSalaryStructureA
+
+'存储新增方案阶梯总个数
+Private paintSSListCount As Integer
+
+'写入正则表达式
+Public Sub SetSSListFormExcel()
+'    遍历 Excel 表中，获取表中所有工资阶梯
+'
+'    参数:
+'    objList As ListObjects
+'
+'    返回:
+'    NULL
+
+    Dim wrkshtBase As Worksheet
+    Dim objListReg As ListObject
+    
+    Set wrkshtBase = ActiveWorkbook.Worksheets("基本信息")
+    Set objList = wrkshtBase.ListObjects("工资销售A表")
+
+    Dim ListObjRows As ListRows
+    Dim ListObjRow As ListRow
+    
+    Set ListObjRows = objList.ListRows
+    ReDim pacSSList(0)
+    Dim i As Integer
+    i = 0
+    
+    For Each ListObjRow In ListObjRows
+        i = i + 1
+        ReDim Preserve pacSSList(i)
+        
+        pacSSList(i).SetSalaryStructureFromList ListObjRow
+'        RegItem(i).ShowRegInfo
+        
+    Next ListObjRow
+    
+    paintSSListCount = i
+End Sub
+
+Public Sub CopySSs(SSInput As cSalaryStructureAs)
+'    复制整个cSalaryStructureAs类中的元素
+'
+'    参数:
+'    cSalaryStructureAs As cSalaryStructureAs
+'
+'    返回:
+'    NULL
+    
+    
+    paintSSListCount = SSInput.GetRegsCount
+    
+    ReDim Preserve pacSSList(paintSSListCount)
+    Dim cSSsA As cSalaryStructureAs
+    
+    Dim i As Integer
+    For i = 1 To paintSSListCount
+        pacSSList(i).CopySS SSInput.GetSSsMember(i)
+    Next i
+    
+End Sub
+
+Public Sub SetSSsMember(intNum As Integer, cSSInput As cSalaryStructureA)
+'    读取cSSInput中的信息，并写入到pacSSList中，指定位置的cSalaryStructureA
+'    作用原理类似数组
+'
+'    参数:
+'    intNum As Integer
+'    cSSInput As cSalaryStructureA
+'
+'    返回:
+'    NULL
+
+    pacSSList(intNum).CopySS cSSInput
+
+End Sub
+
+Public Function GetSSsMember(intNum As Integer) As cSalaryStructureA
+'    读取RpacSSList中指定位置的cSalaryStructureA信息
+'    作用原理类似数组
+'
+'    参数:
+'    intNum As Integer
+'
+'    返回:
+'    GetSSsMember As cSalaryStructureA
+
+    Dim cSSOutput As New cSalaryStructureA
+    cSSOutput.CopySS pacSSList(intNum)
+
+    GetSSsMember = cRegOutput
+
+End Function
