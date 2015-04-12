@@ -59,6 +59,9 @@ Public Sub SetAcvmtsItemFormExcel()
     '写入单子总数
     SetintAcvmtsCount (i)
     
+    '写入业绩总数
+    SetdPorfitCount
+    
 End Sub
 
 '
@@ -102,7 +105,7 @@ Private Sub SetintAcvmtsCount(intInput As Integer)
 End Sub
 
 '写入业绩总数
-Public Sub SetdPorfitCount()
+Private Sub SetdPorfitCount()
     Dim a As cAchievement
     Dim i As Integer
     
