@@ -30,7 +30,7 @@ Public Sub SetpacAcvmts(cAcvmtsInput As cAchievements)
 '    返回:
 '    NULL
     
-    Set pacAcvmts = cAcvmtsInput.GetIndividualPerformanceLists(pacEpyAtrbs.GetintEmployeeID)
+    Set pacAcvmts = cAcvmtsInput.GetIndividualPerformanceLists(pacEpyAtrbs.GetintEpyNum)
 End Sub
 
 
