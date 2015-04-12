@@ -157,7 +157,7 @@ Public Sub PrintAcvmtsToExcel(wrkshtOutPut As Worksheet, intSale As Integer)
     
     '输出个人总业绩汇总
     wrkshtOutPut.Cells(i + 2, 1) = "总业绩"
-    wrkshtOutPut.Cells(i + 2, 4) = dPorfitCount
+    wrkshtOutPut.Cells(i + 2, 5) = dPorfitCount
     
 End Sub
 
