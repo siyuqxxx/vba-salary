@@ -139,7 +139,7 @@ Public Function GetAchievement(intNum As Integer) As cAchievement
     cAcvmtA.CopyAcvmt cAcvmt(intNum)
     Set GetAchievement = cAcvmtA
 End Function
-Public Sub PrintAcvmts()
+Public Sub PrintAcvmtsToExcel(wrkshtOutPut As Worksheet)
 '    逐条输出业绩信息到Excel
 '
 '    参数:
@@ -147,8 +147,6 @@ Public Sub PrintAcvmts()
 '
 '    返回:
 '    NULL
-    Dim wrkshtOutPut As Worksheet
-    Set wrkshtOutPut = ActiveWorkbook.Worksheets("Sheet1")
 
     Dim a As cAchievement
     Dim i As Integer
@@ -194,3 +192,4 @@ Public Sub CopycRegList(cRegsInput As cRegexes)
 
     cRegList.CopyRegexes cRegsInput
 End Sub
+
