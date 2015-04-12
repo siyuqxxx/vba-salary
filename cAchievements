@@ -139,7 +139,7 @@ Public Function GetAchievement(intNum As Integer) As cAchievement
     cAcvmtA.CopyAcvmt cAcvmt(intNum)
     Set GetAchievement = cAcvmtA
 End Function
-Public Sub PrintAcvmtsToExcel(wrkshtOutPut As Worksheet)
+Public Sub PrintAcvmtsToExcel(wrkshtOutPut As Worksheet, intSale As Integer)
 '    逐条输出业绩信息到Excel
 '
 '    参数:
@@ -152,8 +152,12 @@ Public Sub PrintAcvmtsToExcel(wrkshtOutPut As Worksheet)
     Dim i As Integer
     
     For i = 1 To intAcvmtsCount
-        cAcvmt(i).PrintAcvmt wrkshtOutPut, i
+        cAcvmt(i).PrintAcvmt wrkshtOutPut, i + 1, intSale
     Next i
+    
+    '输出个人总业绩汇总
+    wrkshtOutPut.Cells(i + 2, 1) = "总业绩"
+    wrkshtOutPut.Cells(i + 2, 4) = dPorfitCount
     
 End Sub
 
