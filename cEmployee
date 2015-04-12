@@ -80,5 +80,5 @@ Public Sub PrintEpyAcvmtsToExcel()
     Set ws = ActiveWorkbook.Sheets(strEmy)
     
     '输出员工业绩至工作表
-    pacAcvmts.PrintAcvmtsToExcel ws
+    pacAcvmts.PrintAcvmtsToExcel ws, pacEpyAtrbs.GetintEpyNum
 End Sub
