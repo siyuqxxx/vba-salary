@@ -33,4 +33,52 @@ Public Sub SetpacAcvmts(cAcvmtsInput As cAchievements)
     Set pacAcvmts = cAcvmtsInput.GetIndividualPerformanceLists(pacEpyAtrbs.GetintEpyNum)
 End Sub
 
+Private Function IsWorksheetExists(strWSName As String) As Boolean
+'    判断指定名称的工作表是否存在
+'
+'    参数:
+'    strWSName As String
+'
+'    返回:
+'    IsSheetExists As Boolean
+    Dim ws As Worksheet
+    On Error Resume Next
+    
+    Set ws = ActiveWorkbook.Sheets(strWSName)
+    
+    If ws Is Nothing Then
+        '工作表不存在
+        IsWorksheetExists = False
+    Else
+        '工作表存在
+        IsWorksheetExists = True
+    End If
+End Function
 
+Public Sub PrintEpyAcvmtsToExcel()
+'    如果没有以员工姓名命名的工作表存在，新建工作表；如果已经存在，清空表内容
+'    将员工业绩输出至Excel中，以员工姓名命名的工作表上
+'
+'    参数:
+'    NULL
+'
+'    返回:
+'    NULL
+
+    Dim strEmy As String
+    strEmy = pacEpyAtrbs.GetstrName & " " & pacEpyAtrbs.GetintEpyNum
+    
+    If IsWorksheetExists(strEmy) Then
+        '清空工作表内容
+        Worksheets(strEmy).Cells.Delete Shift:=xlUp
+    Else
+        '新增工作表，并已员工姓名命名
+        Sheets.Add(after:=Sheets(Sheets.Count)).Name = strEmy
+    End If
+    
+    Dim ws As Worksheet
+    Set ws = ActiveWorkbook.Sheets(strEmy)
+    
+    '输出员工业绩至工作表
+    pacAcvmts.PrintAcvmtsToExcel ws
+End Sub
