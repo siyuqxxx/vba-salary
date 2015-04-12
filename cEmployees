@@ -7,7 +7,7 @@ Private pacAcvmtList As New cAchievements
 '存储员工属性表
 Private pacEAList As New cEmployeesAttributes
 
-Public Sub SetpacEpy()
+Public Sub SetpacEpyList()
 '    遍历 员工属性表 表中员工属，创建员工信息表
 '
 '    参数:
@@ -27,7 +27,10 @@ Public Sub SetpacEpy()
         
         ReDim Preserve pacEpyList(i)
         
+        '设置各个员工的员工属性
         pacEpyList(i).SetpacEpyAtrbs pacEAList.GetEpyAtrbByID(i)
+        
+        '设置各个员工的业绩清单
         pacEpyList(i).SetpacAcvmts pacAcvmtList
     Next i
 End Sub
