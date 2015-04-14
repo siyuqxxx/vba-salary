@@ -1,5 +1,5 @@
 ﻿'存储ID
-Private paintID As intger
+Private paintID As Integer
 
 '存储业绩下线
 Private palLAcvmt As Long
@@ -18,6 +18,9 @@ Private palPerformanceAward As Long
 
 '存储提成
 Private padCutOfSales As Double
+
+'存储年终奖
+Private padAnnualBonusRate As Double
 
 '===================================================================
 '写入ID
@@ -62,46 +65,58 @@ Private Sub SetpadCutOfSales(dInput As Double)
 
 End Sub
 
+'写入年终奖
+Private Sub SetpadAnnualBonusRate(dInput As Double)
+    padAnnualBonusRate = dInput
+
+End Sub
+
 '===================================================================
 '读出ID
 Public Function GetpaintID() As Integer
-    GetpaintID = SetpaintID
+    GetpaintID = paintID
 
 End Function
 
 '读出业绩下线
 Public Function GetpalLAcvmt() As Long
-    GetpalLAcvmt = SetpalLAcvmt
+    GetpalLAcvmt = palLAcvmt
 
 End Function
 
 '读出业绩上线
 Public Function GetpalUAcvmt() As Long
-    GetpalUAcvmt = SetpalUAcvmt
+    GetpalUAcvmt = palUAcvmt
 
 End Function
 
 '读出基本工资
 Public Function GetpalBSalary() As Long
-    GetpalBSalary = SetpalBSalary
+    GetpalBSalary = palBSalary
 
 End Function
 
 '读出岗位工资
 Public Function GetpalPSalary() As Long
-    GetpalPSalary = SetpalPSalary
+    GetpalPSalary = palPSalary
 
 End Function
 
 '读出业绩奖
 Public Function GetpalPerformanceAward() As Long
-    GetpalPerformanceAward = SetpalPerformanceAward
+    GetpalPerformanceAward = palPerformanceAward
 
 End Function
 
 '读出提成
 Public Function GetpadCutOfSales() As Double
-    GetpadCutOfSales = SetpadCutOfSales
+    GetpadCutOfSales = padCutOfSales
+
+End Function
+
+'读出年终奖
+Public Function GetpadAnnualBonusRate() As Double
+    GetpadAnnualBonusRate = padAnnualBonusRate
 
 End Function
 
@@ -142,7 +157,8 @@ Public Sub SetSalaryStructureFromList(ListObjRow As ListRow)
 '写入提成
     SetpadCutOfSales ListObjRow.Range(GetListObjColIndex(objListCols, "提成"))
 
-
+'写入年终奖比率
+    SetpadAnnualBonusRate ListObjRow.Range(GetListObjColIndex(objListCols, "年终奖"))
 End Sub
 
 Private Function GetListObjColIndex(objListCols As ListColumns, strName As String) As Long
@@ -182,6 +198,9 @@ Public Sub CopySS(cSSInput As cSalaryStructureA)
     
     '复制提成
     padCutOfSales = cSSInput.GetpadCutOfSales
+    
+    '复制年终奖
+    padAnnualBonusRate = cSSInput.GetpadAnnualBonusRate
     
     
 End Sub
