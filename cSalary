@@ -1,0 +1,140 @@
+﻿'存储总业绩
+Private padPerformence As Double
+
+'存储基本工资
+Private palBSalary As Long
+
+'存储岗位工资
+Private palPSalary As Long
+
+'存储业绩奖
+Private palPerformanceAward As Long
+
+'存储提成
+Private padCutOfSales As Double
+
+'存储年终奖
+Private padAnnualBonus As Double
+
+'存储薪资方案条
+Private pacSSA As cSalaryStructureA
+
+'===================================================================
+'存储总业绩
+Public Sub SetpadPerformence(lInput As Long)
+    palPerformence = lInptut
+    
+End Sub
+
+'写入基本工资
+Public Sub SetpalBSalary(lInput As Long)
+    palBSalary = lInput
+
+End Sub
+
+'写入岗位工资
+Public Sub SetpalPSalary(lInput As Long)
+    palPSalary = lInput
+
+End Sub
+
+'写入业绩奖
+Public Sub SetpalPerformanceAward(lInput As Long)
+    palPerformanceAward = lInput
+
+End Sub
+
+'写入提成
+Public Sub SetpadCutOfSales()
+    
+    padCutOfSales = (padPerformence - pacSSA.GetpalLAcvmt) * pacSSA.GetpadCutOfSales
+
+End Sub
+
+'写入年终奖
+Public Sub SetpadAnnualBonus(dInput As Double)
+    padCutOfSales = padPerformence * pacSSA.GetpadAnnualBonusRate
+
+End Sub
+
+'写入薪资方案条
+Private Sub SetpacSSA(cSSAInput As cSalaryStructureA)
+    pacSSA.CopySS cSSAInput
+End Sub
+
+'===================================================================
+'读出基本工资
+Public Function GetpalBSalary() As Long
+    GetpalBSalary = palBSalary
+
+End Function
+
+'读出岗位工资
+Public Function GetpalPSalary() As Long
+    GetpalPSalary = palPSalary
+
+End Function
+
+'读出业绩奖
+Public Function GetpalPerformanceAward() As Long
+    GetpalPerformanceAward = palPerformanceAward
+
+End Function
+
+'读出提成
+Public Function GetpadCutOfSales() As Double
+    GetpadCutOfSales = padCutOfSales
+
+End Function
+
+'读出年终奖
+Public Function GetpadAnnualBonus() As Double
+    GetpadAnnualBonus = padAnnualBonus
+
+End Function
+
+'===================================================================
+
+Public Sub CopySalary(cSalaryInput As cSalary)
+    
+    '复制基本工资
+    palBSalary = cSalaryInput.GetpalBSalary
+    
+    '复制岗位工资
+    palPSalary = cSalaryInput.GetpalPSalary
+    
+    '复制业绩奖
+    palPerformanceAward = cSalaryInput.GetpalPerformanceAward
+    
+    '复制提成
+    padCutOfSales = cSalaryInput.GetpadCutOfSales
+    
+    '复制年终奖
+    padAnnualBonus = cSalaryInput.GetpadAnnualBonus
+    
+    
+End Sub
+
+Public Function SetSalary(PerformenceInput As Double, cSSAInput As cSalaryStructureA)
+    '写入总业绩
+    SetpadPerformence PerformenceInput
+    
+    '写入薪资方案条
+    SetpacSSA cSSAInput
+    
+    '写入基本工资
+    SetpalBSalary pacSSA.GetpalBSalary
+    
+    '写入岗位工资
+    SetpalPSalary pacSSA.GetpalPSalary
+    
+    '写入业绩奖
+    SetpalPerformanceAward pacSSA.GetpalPerformanceAward
+    
+    '写入提成
+    SetpadCutOfSales
+    
+    '写入年终奖
+    SetpadAnnualBonus
+    
+End Function
