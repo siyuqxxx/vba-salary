@@ -4,10 +4,8 @@ Private pacSSList() As New cSalaryStructureA
 '存储新增方案阶梯总个数
 Private paintSSListCount As Integer
 
-'存储具体工资数，作打包的接口参数使用
-Private pacSalary As New cSalary
 
-'写入正则表达式
+'写入工资A方案
 Public Sub SetSSListFormExcel()
 '    遍历 Excel 表中，获取表中所有工资阶梯
 '
@@ -119,8 +117,3 @@ Private Function GetSalaryLevel(lPerformance As Long) As Integer
 
 End Function
 
-
-
-Private Function GetSalaryCutOfSales(lPerformance As Long) As Double
-
-End Function
