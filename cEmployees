@@ -7,38 +7,20 @@ Private pacAcvmtList As New cAchievements
 '存储员工属性表
 Private pacEAList As New cEmployeesAttributes
 
-Public Sub SetpacEpyList()
-'    遍历 员工属性表 表中员工属，创建员工信息表
+'存储员工薪资A方案
+Private pacSSList As New cSalaryStructureAs
+
+'======================================================================
+Private Sub SetpacSSList()
+'    遍历 Excel 表中的 工资A方案，获取表中所有工资阶梯结构
 '
 '    参数:
-'    NULL
+'    objList As ListObjects
 '
 '    返回:
 '    NULL
     
-    '从 Excel 员工属性表 中读出员工属性表
-    SetcEsAList
-    
-    '从 Excel 业绩总表 中读出员工业绩表
-    SetpacAcvmtList
-    
-    Dim intEpyCount As Integer
-    intEpyCount = pacEAList.GetpaintEACount()
-    
-    Dim i As Integer
-    
-    For i = 1 To intEpyCount
-'        Dim strEpyName As String
-'        strEpyName = pacEAList.GetEpyAtrbByEpyNum(i)
-        
-        ReDim Preserve pacEpyList(i)
-        
-        '设置各个员工的员工属性
-        pacEpyList(i).SetpacEpyAtrbs pacEAList.GetEpyAtrbByID(i)
-        
-        '设置各个员工的业绩清单
-        pacEpyList(i).SetpacAcvmts pacAcvmtList
-    Next i
+    pacSSList.SetSSListFormExcel
 End Sub
 
 Private Sub SetpacAcvmtList()
@@ -64,6 +46,50 @@ Private Sub SetcEsAList()
     
     pacEAList.SetpacEpyAtrbListFormExcel
 End Sub
+
+'======================================================================
+Public Sub SetpacEpyList()
+'    遍历 员工属性表 表中员工属，创建员工信息表
+'
+'    参数:
+'    NULL
+'
+'    返回:
+'    NULL
+    
+    '从 Excel 员工属性表 中读出员工属性表
+    SetcEsAList
+    
+    '从 Excel 业绩总表 中读出员工业绩表
+    SetpacAcvmtList
+    
+    '从 Excel 工资A方案表 中读出工资阶梯结构
+    SetpacSSList
+    
+    Dim intEpyCount As Integer
+    intEpyCount = pacEAList.GetpaintEACount()
+    
+    Dim i As Integer
+    
+    For i = 1 To intEpyCount
+'        Dim strEpyName As String
+'        strEpyName = pacEAList.GetEpyAtrbByEpyNum(i)
+        
+        ReDim Preserve pacEpyList(i)
+        
+        '设置各个员工的员工属性
+        pacEpyList(i).SetpacEpyAtrbs pacEAList.GetEpyAtrbByID(i)
+        
+        '设置各个员工的业绩清单
+        pacEpyList(i).SetpacAcvmts pacAcvmtList
+        
+        '设置各个员工的工资方案条
+        pacEpyList(i).SetpacSalary pacSSList
+    
+    Next i
+End Sub
+
+
 
 Public Sub PrintEpysAcvmtsToExcel()
     Dim i As Integer
