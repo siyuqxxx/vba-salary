@@ -17,42 +17,42 @@ Private padCutOfSales As Double
 Private padAnnualBonus As Double
 
 '存储薪资方案条
-Private pacSSA As cSalaryStructureA
+Private pacSSA As New cSalaryStructureA
 
 '===================================================================
 '存储总业绩
-Public Sub SetpadPerformence(lInput As Long)
-    palPerformence = lInptut
+Private Sub SetpadPerformence(dInput As Double)
+    padPerformence = dInput
     
 End Sub
 
 '写入基本工资
-Public Sub SetpalBSalary()
+Private Sub SetpalBSalary()
     palBSalary = pacSSA.GetpalBSalary
 End Sub
 
 '写入岗位工资
-Public Sub SetpalPSalary()
+Private Sub SetpalPSalary()
     palPSalary = pacSSA.GetpalPSalary
 
 End Sub
 
 '写入业绩奖
-Public Sub SetpalPerformanceAward()
+Private Sub SetpalPerformanceAward()
     palPerformanceAward = pacSSA.GetpalPerformanceAward
 
 End Sub
 
 '写入提成
-Public Sub SetpadCutOfSales()
+Private Sub SetpadCutOfSales()
     
-    padCutOfSales = (padPerformence - pacSSA.GetpalLAcvmt) * pacSSA.GetpadCutOfSales
+    padCutOfSales = Round((padPerformence - pacSSA.GetpalLAcvmt) * pacSSA.GetpadCutOfSalesRate, 2)
 
 End Sub
 
 '写入年终奖
-Public Sub SetpadAnnualBonus()
-    padCutOfSales = padPerformence * pacSSA.GetpadAnnualBonusRate
+Private Sub SetpadAnnualBonus()
+    padCutOfSales = Round(padPerformence * pacSSA.GetpadAnnualBonusRate, 2)
 
 End Sub
 
