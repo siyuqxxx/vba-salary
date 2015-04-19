@@ -27,20 +27,19 @@ Public Sub SetpadPerformence(lInput As Long)
 End Sub
 
 '写入基本工资
-Public Sub SetpalBSalary(lInput As Long)
-    palBSalary = lInput
-
+Public Sub SetpalBSalary()
+    palBSalary = pacSSA.GetpalBSalary
 End Sub
 
 '写入岗位工资
-Public Sub SetpalPSalary(lInput As Long)
-    palPSalary = lInput
+Public Sub SetpalPSalary()
+    palPSalary = pacSSA.GetpalPSalary
 
 End Sub
 
 '写入业绩奖
-Public Sub SetpalPerformanceAward(lInput As Long)
-    palPerformanceAward = lInput
+Public Sub SetpalPerformanceAward()
+    palPerformanceAward = pacSSA.GetpalPerformanceAward
 
 End Sub
 
@@ -52,7 +51,7 @@ Public Sub SetpadCutOfSales()
 End Sub
 
 '写入年终奖
-Public Sub SetpadAnnualBonus(dInput As Double)
+Public Sub SetpadAnnualBonus()
     padCutOfSales = padPerformence * pacSSA.GetpadAnnualBonusRate
 
 End Sub
@@ -123,13 +122,13 @@ Public Function SetSalary(PerformenceInput As Double, cSSAInput As cSalaryStruct
     SetpacSSA cSSAInput
     
     '写入基本工资
-    SetpalBSalary pacSSA.GetpalBSalary
+    SetpalBSalary
     
     '写入岗位工资
-    SetpalPSalary pacSSA.GetpalPSalary
+    SetpalPSalary
     
     '写入业绩奖
-    SetpalPerformanceAward pacSSA.GetpalPerformanceAward
+    SetpalPerformanceAward
     
     '写入提成
     SetpadCutOfSales
