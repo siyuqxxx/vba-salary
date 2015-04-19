@@ -179,7 +179,7 @@ End Function
 Public Sub CopySS(cSSInput As cSalaryStructureA)
 
     '复制ID
-    paintID = cSSInput.GetpaintIDS
+    paintID = cSSInput.GetpaintID
     
     '复制业绩下线
     palLAcvmt = cSSInput.GetpalLAcvmt
