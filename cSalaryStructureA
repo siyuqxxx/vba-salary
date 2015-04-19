@@ -16,10 +16,10 @@ Private palPSalary As Long
 '存储业绩奖
 Private palPerformanceAward As Long
 
-'存储提成
-Private padCutOfSales As Double
+'存储提成比率
+Private padCutOfSalesRate As Double
 
-'存储年终奖
+'存储年终奖比率
 Private padAnnualBonusRate As Double
 
 '===================================================================
@@ -60,8 +60,8 @@ Private Sub SetpalPerformanceAward(lInput As Long)
 End Sub
 
 '写入提成
-Private Sub SetpadCutOfSales(dInput As Double)
-    padCutOfSales = dInput
+Private Sub SetpadCutOfSalesRate(dInput As Double)
+    padCutOfSalesRate = dInput
 
 End Sub
 
@@ -109,8 +109,8 @@ Public Function GetpalPerformanceAward() As Long
 End Function
 
 '读出提成
-Public Function GetpadCutOfSales() As Double
-    GetpadCutOfSales = padCutOfSales
+Public Function GetpadCutOfSalesRate() As Double
+    GetpadCutOfSalesRate = padCutOfSalesRate
 
 End Function
 
@@ -155,7 +155,7 @@ Public Sub SetSalaryStructureFromList(ListObjRow As ListRow)
     SetpalPerformanceAward ListObjRow.Range(GetListObjColIndex(objListCols, "业绩奖"))
 
 '写入提成
-    SetpadCutOfSales ListObjRow.Range(GetListObjColIndex(objListCols, "提成"))
+    SetpadCutOfSalesRate ListObjRow.Range(GetListObjColIndex(objListCols, "提成"))
 
 '写入年终奖比率
     SetpadAnnualBonusRate ListObjRow.Range(GetListObjColIndex(objListCols, "年终奖"))
@@ -197,7 +197,7 @@ Public Sub CopySS(cSSInput As cSalaryStructureA)
     palPerformanceAward = cSSInput.GetpalPerformanceAward
     
     '复制提成
-    padCutOfSales = cSSInput.GetpadCutOfSales
+    padCutOfSalesRate = cSSInput.GetpadCutOfSalesRate
     
     '复制年终奖
     padAnnualBonusRate = cSSInput.GetpadAnnualBonusRate
