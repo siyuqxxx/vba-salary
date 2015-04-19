@@ -37,6 +37,7 @@ Public Function GetstrReg()
     GetstrReg = strReg
 
 End Function
+
 Public Sub SetRegInfoFromList(ListObjRow As ListRow)
 '   写入正则表达式信息
 '
