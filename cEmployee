@@ -4,9 +4,24 @@ Private pacEpyAtrbs As New cEmployeeAttributes
 '存储员工业绩
 Private pacAcvmts As New cAchievements
 
-'Public Sub GetEpy()
+'存储员工薪资
+Private pacSalary As New cSalary
+
+Public Sub SetpacSalary(cSSListInput As cSalaryStructureAs)
+'    写入员工工资
 '
-'End Sub
+'    参数:
+'    cSSListInput As cSalaryStructureAs
+'    lPreformance As Long
+'
+'    返回:
+'    NULL
+
+    Dim dPreformance As Double
+    dPreformance = pacAcvmts.GetdPorfitCount
+
+     pacSalary.SetSalary dPreformance, cSSListInput.GetSSsMember(dPreformance)
+End Sub
 
 Public Sub SetpacEpyAtrbs(EpyInput As cEmployeeAttributes)
 '    写入员工属性
