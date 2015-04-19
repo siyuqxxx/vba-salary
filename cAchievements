@@ -10,7 +10,49 @@ Private dPorfitCount As Double
 '存储正则表达式表
 Private cRegList As New cRegexes
 
+'============================================================== Set
+'写入单子总数
+Private Sub SetintAcvmtsCount(intInput As Integer)
+    intAcvmtsCount = intInput
+End Sub
 
+'写入业绩总数
+Private Sub SetdPorfitCount()
+    Dim a As cAchievement
+    Dim i As Integer
+    
+    For i = 1 To intAcvmtsCount
+        dPorfitCount = cAcvmt(i).GetProfit() + dPorfitCount
+    Next i
+End Sub
+
+Private Sub SetcRegList()
+'    遍历表，获取表中所有正则表达式信息
+'
+'    参数:
+'    NULL
+'
+'    返回:
+'    NULL
+    
+    cRegList.SetRegItem
+End Sub
+
+'============================================================== Get
+
+Public Function GetdPorfitCount() As Double
+'    获取总业绩
+'
+'    参数:
+'    NULL
+'
+'    返回:
+'    GetdPorfitCount() As Double
+
+    GetdPorfitCount = dPorfitCount
+End Function
+
+'==============================================================
 
 '写入单子信息
 Public Sub SetAcvmtsItemFormExcel()
@@ -99,33 +141,6 @@ On Error Resume Next
     
 End Sub
 
-'写入单子总数
-Private Sub SetintAcvmtsCount(intInput As Integer)
-    intAcvmtsCount = intInput
-End Sub
-
-'写入业绩总数
-Private Sub SetdPorfitCount()
-    Dim a As cAchievement
-    Dim i As Integer
-    
-    For i = 1 To intAcvmtsCount
-        dPorfitCount = cAcvmt(i).GetProfit() + dPorfitCount
-    Next i
-End Sub
-
-Public Sub SetcRegList()
-'    遍历表，获取表中所有正则表达式信息
-'
-'    参数:
-'    NULL
-'
-'    返回:
-'    NULL
-    
-    cRegList.SetRegItem
-End Sub
-
 Public Function GetAchievement(intNum As Integer) As cAchievement
 '    获取cAchievements中指定GetAchievement的内容，
 '    类似数组
@@ -139,6 +154,7 @@ Public Function GetAchievement(intNum As Integer) As cAchievement
     cAcvmtA.CopyAcvmt cAcvmt(intNum)
     Set GetAchievement = cAcvmtA
 End Function
+
 Public Sub PrintAcvmtsToExcel(wrkshtOutPut As Worksheet, intSale As Integer, strName As String)
 '    逐条输出业绩信息到Excel
 '
