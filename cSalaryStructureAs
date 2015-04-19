@@ -78,7 +78,7 @@ Public Sub SetSSsMember(intNum As Integer, cSSInput As cSalaryStructureA)
 
 End Sub
 
-Public Function GetSSsMember(intNum As Integer) As cSalaryStructureA
+Public Function GetSSsMember(dPerformanceInput As Double) As cSalaryStructureA
 '    读取RpacSSList中指定位置的cSalaryStructureA信息
 '    作用原理类似数组
 '
@@ -89,13 +89,13 @@ Public Function GetSSsMember(intNum As Integer) As cSalaryStructureA
 '    GetSSsMember As cSalaryStructureA
 
     Dim cSSOutput As New cSalaryStructureA
-    cSSOutput.CopySS pacSSList(intNum)
+    cSSOutput.CopySS pacSSList(GetSalaryLevel(dPerformanceInput))
 
-    GetSSsMember = cRegOutput
+    Set GetSSsMember = cSSOutput
 
 End Function
 
-Private Function GetSalaryLevel(lPerformance As Long) As Integer
+Private Function GetSalaryLevel(dPerformance As Double) As Integer
 '    计算 lPerformance 对应的工资阶梯
 '    查询薪资结构，确定具体业绩对应的薪水档
 '
@@ -110,8 +110,9 @@ Private Function GetSalaryLevel(lPerformance As Long) As Integer
     Dim i As Integer
 
     For i = 1 To paintSSListCount
-        If (lPerformance < pacSSList(i).GetpalUAcvmt And lPerformance >= pacSSList(i).GetpalLAcvmt) Then
+        If (dPerformance < pacSSList(i).GetpalUAcvmt And dPerformance >= pacSSList(i).GetpalLAcvmt) Then
             GetSalaryLevel = i
+            Exit For
         End If
     Next i
 
