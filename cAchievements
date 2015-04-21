@@ -172,9 +172,12 @@ Public Sub PrintAcvmtsToExcel(wrkshtOutPut As Worksheet, intSale As Integer, str
     Next i
     
     '输出个人总业绩汇总
-    wrkshtOutPut.Cells(i + 2, 2) = strName & "总业绩"
-    wrkshtOutPut.Cells(i + 2, 6) = dPorfitCount
+    wrkshtOutPut.Range(wrkshtOutPut.Cells(i + 1, 2), wrkshtOutPut.Cells(i + 1, 7)).Merge
+    wrkshtOutPut.Range(wrkshtOutPut.Cells(i + 1, 2), wrkshtOutPut.Cells(i + 1, 7)) = strName & "总业绩"
+    wrkshtOutPut.Cells(i + 1, 8) = dPorfitCount
     
+    '设置表格格式
+    SetExcelFormat wrkshtOutPut
 End Sub
 
 Public Function GetIndividualPerformanceLists(intTestID As Integer) As cAchievements
@@ -213,3 +216,66 @@ Public Sub CopycRegList(cRegsInput As cRegexes)
     cRegList.CopyRegexes cRegsInput
 End Sub
 
+Private Sub SetExcelFormat(ws As Worksheet)
+'    设置cAchievements中各个员工的业绩导入到 Excel 表格中的格式
+'
+'    参数:
+'    ws As Worksheet
+'
+'    返回:
+'    NULL
+
+    ws.Cells.Borders(xlDiagonalDown).LineStyle = xlNone
+    ws.Cells.Borders(xlDiagonalUp).LineStyle = xlNone
+    With ws.Cells.Borders(xlEdgeLeft)
+        .LineStyle = xlContinuous
+        .ColorIndex = 0
+        .TintAndShade = 0
+        .Weight = xlThin
+    End With
+    With ws.Cells.Borders(xlEdgeTop)
+        .LineStyle = xlContinuous
+        .ColorIndex = 0
+        .TintAndShade = 0
+        .Weight = xlThin
+    End With
+    With ws.Cells.Borders(xlEdgeBottom)
+        .LineStyle = xlContinuous
+        .ColorIndex = 0
+        .TintAndShade = 0
+        .Weight = xlThin
+    End With
+    With ws.Cells.Borders(xlEdgeRight)
+        .LineStyle = xlContinuous
+        .ColorIndex = 0
+        .TintAndShade = 0
+        .Weight = xlThin
+    End With
+    With ws.Cells.Borders(xlInsideVertical)
+        .LineStyle = xlContinuous
+        .ColorIndex = 0
+        .TintAndShade = 0
+        .Weight = xlThin
+    End With
+    With ws.Cells.Borders(xlInsideHorizontal)
+        .LineStyle = xlContinuous
+        .ColorIndex = 0
+        .TintAndShade = 0
+        .Weight = xlThin
+    End With
+    With ws.Cells.Font
+        .Name = "宋体"
+        .Size = 8
+        .Strikethrough = False
+        .Superscript = False
+        .Subscript = False
+        .OutlineFont = False
+        .Shadow = False
+        .Underline = xlUnderlineStyleNone
+        .ThemeColor = xlThemeColorLight1
+        .TintAndShade = 0
+        .ThemeFont = xlThemeFontMinor
+    End With
+    
+    ws.Cells.ColumnWidth = 8.38
+End Sub
