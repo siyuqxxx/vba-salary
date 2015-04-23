@@ -96,4 +96,7 @@ Public Sub PrintEpyAcvmtsToExcel()
     
     '输出员工业绩至工作表
     pacAcvmts.PrintAcvmtsToExcel ws, pacEpyAtrbs.GetintEpyNum, pacEpyAtrbs.GetstrName
+    
+    '输出员工工资至工作表
+    pacSalary.PrintSalaryToExcel ws, pacAcvmts.GetintAcvmtsCount + 4
 End Sub
