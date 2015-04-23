@@ -52,6 +52,18 @@ Public Function GetdPorfitCount() As Double
     GetdPorfitCount = dPorfitCount
 End Function
 
+Public Function GetintAcvmtsCount() As Integer
+'    获取总单子数
+'
+'    参数:
+'    NULL
+'
+'    返回:
+'    GetintAcvmtsCount() As Integer
+
+    GetintAcvmtsCount = intAcvmtsCount
+End Function
+
 '==============================================================
 
 '写入单子信息
