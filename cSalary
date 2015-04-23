@@ -52,7 +52,7 @@ End Sub
 
 '写入年终奖
 Private Sub SetpadAnnualBonus()
-    padCutOfSales = Round(padPerformence * pacSSA.GetpadAnnualBonusRate, 2)
+    padAnnualBonus = Round(padPerformence * pacSSA.GetpadAnnualBonusRate, 2)
 
 End Sub
 
@@ -135,5 +135,26 @@ Public Function SetSalary(PerformenceInput As Double, cSSAInput As cSalaryStruct
     
     '写入年终奖
     SetpadAnnualBonus
+    
+End Function
+
+Public Function PrintSalaryToExcel(ws As Worksheet, iRow As Integer)
+    ws.Cells(iRow, 1) = "基本工资"
+    ws.Cells(iRow, 2) = "岗位工资"
+    ws.Cells(iRow, 3) = "业绩奖"
+    ws.Cells(iRow, 4) = "提成"
+    ws.Cells(iRow, 5) = "年终奖"
+    ws.Cells(iRow, 6) = "单位代缴社保"
+    ws.Cells(iRow, 7) = "考情"
+    ws.Cells(iRow, 8) = "总和"
+    
+    ws.Cells(iRow + 1, 1) = GetpalBSalary
+    ws.Cells(iRow + 1, 2) = GetpalPSalary
+    ws.Cells(iRow + 1, 3) = GetpalPerformanceAward
+    ws.Cells(iRow + 1, 4) = GetpadCutOfSales
+    ws.Cells(iRow + 1, 5) = GetpadAnnualBonus
+    ws.Cells(iRow + 1, 6) = ""
+    ws.Cells(iRow + 1, 7) = ""
+    ws.Cells(iRow + 1, 8).FormulaR1C1 = "=sum(r" & iRow + 1 & "c1:r" & iRow + 1 & "c7)"
     
 End Function
