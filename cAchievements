@@ -237,6 +237,8 @@ Private Sub SetExcelFormat(ws As Worksheet)
 '    返回:
 '    NULL
 
+    Application.ScreenUpdating = False
+    
     ws.Cells.Borders(xlDiagonalDown).LineStyle = xlNone
     ws.Cells.Borders(xlDiagonalUp).LineStyle = xlNone
     With ws.Cells.Borders(xlEdgeLeft)
@@ -290,4 +292,6 @@ Private Sub SetExcelFormat(ws As Worksheet)
     End With
     
     ws.Cells.ColumnWidth = 8.38
+    
+    Application.ScreenUpdating = True
 End Sub
